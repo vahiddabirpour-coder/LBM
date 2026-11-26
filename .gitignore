@@ -1,0 +1,5 @@
+lbm
+*.mod
+*.o
+out*.txt
+*.DAT
