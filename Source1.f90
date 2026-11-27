@@ -1,6 +1,7 @@
 module CaviData
 implicit none
 	integer nx,ny
+	integer case_study
 	real (8) v_x(0:8),v_y(0:8)    
 	real (8) wi(0:8)        
 	logical, ALLOCATABLE  :: Solid(:,:)
@@ -20,6 +21,15 @@ implicit none
 	real (8) pr_e,visco_f,K_f,k_s,tau_0,T_c,T_h,tau1,tau_loc
     character (len=300) :: FileNameSTR
 contains
+	function case_tag() result(tag)
+	    implicit none
+	    character (len=32) :: tag
+	    character (len=16) :: case_number
+
+	    write(case_number, '(I0.2)') case_study
+	    tag='Case'//trim(case_number)//'_'
+	end function
+
 	subroutine ini_var(n_x,n_y)  ! allocation general variables
 		implicit none
 		integer , intent(in) :: n_x,n_y
@@ -81,7 +91,7 @@ subroutine singlerun
         call geo_maker
         call cpu_time(stime)
         time=0   
-        open(77,file='result/Nu_Time.txt')
+        open(77,file='result/'//trim(case_tag())//'Nu_Time.txt')
         do while ((T_change >= 1e-3) .OR. (Ux_change >= 1e-5) )
             time=time+1
             time_ctr=int(0.02/delta_t)
@@ -123,7 +133,7 @@ subroutine singlerun
         call geo_maker
         call cpu_time(stime)
         time=0   
-        open(77,file='result/Nu_Time.txt')
+        open(77,file='result/'//trim(case_tag())//'Nu_Time.txt')
         do while ((T_change >= 1e-5) .OR. (Ux_change >= 1e-5) )
             time=time+1
             time_ctr=int(0.02/delta_t)
@@ -155,6 +165,8 @@ subroutine singlerun
     call ini_var(nx,ny)
     Print*,'--> Reading Data from Input.txt'
     open(12,file='Input.txt')
+	read (12,*)  !case_study
+    read (12,*)  case_study
     read (12,*) !a1,a2
     read (12,*) a1,a2
     read (12,*) !a3,a4
@@ -231,7 +243,7 @@ subroutine singlerun
           write (Ra_str, "(A3,F8.1)") "_Ra", Ra
           write (Da_str, "(A3,F8.6)") "_Da", Da
           write (Nx_str, "(A3,I3)") "_Nx", nx
-          filename1='Results'// trim(adjustl(Nx_str))// trim(adjustl(Pr_str)) //  trim(adjustl(Da_str)) // trim(adjustl(Ra_str))//'.txt'
+          filename1=trim(case_tag())//'Results'// trim(adjustl(Nx_str))// trim(adjustl(Pr_str)) //  trim(adjustl(Da_str)) // trim(adjustl(Ra_str))//'.txt'
           open(20,file='result/'//trim(filename1))
           write(20,*) ' Run Information:'
           select case(bf_ctr)
@@ -676,6 +688,8 @@ subroutine singlerun
     call ini_var(nx,ny)
     Print*,'--> Reading Data from Input.txt'
     open(12,file='Input.txt')
+    read (12,*) !case_study
+    read (12,*) case_study
     read (12,*) !a1,a2
     read (12,*) a1,a2
     read (12,*) !a3,a4
