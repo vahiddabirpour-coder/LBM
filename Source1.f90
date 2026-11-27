@@ -397,6 +397,7 @@ subroutine singlerun
     use CaviData
     implicit none
     integer x,y,x_next,y_next,k
+    !$OMP PARALLEL DO COLLAPSE(2) SCHEDULE(STATIC) PRIVATE(x,y,x_next,y_next,k)
     do x=0,nx-1
         do y=0,ny-1
             do k=0,8        
@@ -407,6 +408,7 @@ subroutine singlerun
 			end do
         end do
     end do
+    !$OMP END PARALLEL DO
     end subroutine
 	!___________________________________________________________________________________________________
 	
@@ -419,7 +421,7 @@ subroutine singlerun
 
     !============================== flow
     !$OMP PARALLEL
-    !$OMP DO PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum)    
+    !$OMP DO COLLAPSE(2) SCHEDULE(STATIC) PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum,u_x_0,u_y_0,u_x_1,u_y_1)
     do x=0,nx-1
         do y=0,ny-1
            ! if (.not. solid(x,y)) then
@@ -559,7 +561,7 @@ subroutine singlerun
     !$OMP END PARALLEL
     !============================== thermal
     !$OMP PARALLEL
-    !$OMP DO PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum)  
+    !$OMP DO COLLAPSE(2) SCHEDULE(STATIC) PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum,u_x_0,u_y_0,u_x_1,u_y_1)
         do x=0,nx-1
         do y=0,ny-1
 				!-------------------------------- local calculations	
@@ -760,7 +762,7 @@ subroutine singlerun
     real (8) tau_T
     !============================== flow
     !$OMP PARALLEL
-    !$OMP DO PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum)    
+    !$OMP DO COLLAPSE(2) SCHEDULE(STATIC) PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum,u_x_0,u_y_0,u_x_1,u_y_1,tau_loc)
     do x=0,nx-1
         do y=0,ny-1
            ! if (.not. solid(x,y)) then
@@ -923,7 +925,7 @@ subroutine singlerun
     !$OMP END PARALLEL
     !============================== thermal
     !$OMP PARALLEL
-    !$OMP DO PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum)  
+    !$OMP DO COLLAPSE(2) SCHEDULE(STATIC) PRIVATE(x,y,k,kk,Density_loc,u_x,u_y,T_loc,f_eq,g_eq,p,BF,GF,h,u_x_sum,u_y_sum,u_x_0,u_y_0,u_x_1,u_y_1,tau_loc)
         do x=0,nx-1
         do y=0,ny-1
 				!-------------------------------- local calculations	
