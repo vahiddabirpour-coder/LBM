@@ -45,11 +45,14 @@ end module CaviData
 !________________________________________________________________________________________________________________________
       program prog
       use CaviData
-	  integer run_ctr
+	  integer run_ctr, cmd_status, cmd_exit
       print*,' 1- natural convection in cavity'
       print*,' 2- natural convectin with temperature-dependent viscosity'
       print*;print*;
       read*,run_ctr
+      call execute_command_line('mkdir -p result', cmdstat=cmd_status, exitstat=cmd_exit)
+      if (cmd_status /= 0) error stop 'Unable to create result directory'
+      if (cmd_exit /= 0) error stop 'Unable to create result directory'
       select case(run_ctr)
       case(1)
           call singlerun
@@ -78,8 +81,8 @@ subroutine singlerun
         call geo_maker
         call cpu_time(stime)
         time=0   
-        open(77,file='Nu_Time.txt')
-        do while ((T_change >= 1e-5) .OR. (Ux_change >= 1e-5) )
+        open(77,file='result/Nu_Time.txt')
+        do while ((T_change >= 1e-3) .OR. (Ux_change >= 1e-5) )
             time=time+1
             time_ctr=int(0.02/delta_t)
             if (time .ge. 10 .and. mod(time,time_ctr) .eq. 0) then  
@@ -120,7 +123,7 @@ subroutine singlerun
         call geo_maker
         call cpu_time(stime)
         time=0   
-        open(77,file='Nu_Time.txt')
+        open(77,file='result/Nu_Time.txt')
         do while ((T_change >= 1e-5) .OR. (Ux_change >= 1e-5) )
             time=time+1
             time_ctr=int(0.02/delta_t)
@@ -229,7 +232,7 @@ subroutine singlerun
           write (Da_str, "(A3,F8.6)") "_Da", Da
           write (Nx_str, "(A3,I3)") "_Nx", nx
           filename1='Results'// trim(adjustl(Nx_str))// trim(adjustl(Pr_str)) //  trim(adjustl(Da_str)) // trim(adjustl(Ra_str))//'.txt'
-          open(20,file=filename1)
+          open(20,file='result/'//trim(filename1))
           write(20,*) ' Run Information:'
           select case(bf_ctr)
             case(1)

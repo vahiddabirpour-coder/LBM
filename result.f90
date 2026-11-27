@@ -43,7 +43,7 @@
       write (Da_str, "(A3,F8.6)") "_Da", Da
       write (Nx_str, "(A3,I3)") "_Nx", nx
       filename1='Tecplot_'// trim(adjustl(Nx_str))// trim(adjustl(Pr_str)) //  trim(adjustl(Da_str)) // trim(adjustl(Ra_str))//'.DAT'
-      open(11,file=filename1)
+      open(11,file='result/'//trim(filename1))
       !open(11,file='Data.dat')
       write(11,*) 'VARIABLES = X, Y, Ux, Uy, PRESS, Temprature, Porous, OBST' 
       write(11,*) 'ZONE I=', nx, ', J=', ny, ', F=POINT'
@@ -175,7 +175,7 @@
       write (Da_str, "(A3,F8.6)") "_Da", Da
       write (Nx_str, "(A3,I3)") "_Nx", nx
       filename1='Tecplot_'// trim(adjustl(Nx_str))// trim(adjustl(fr_str))// trim(adjustl(Pr_str)) //  trim(adjustl(Da_str)) // trim(adjustl(Ra_str))//'.DAT'
-      open(11,file=filename1)
+      open(11,file='result/'//trim(filename1))
       !open(11,file='Data.dat')
       write(11,*) 'VARIABLES = X, Y, Ux, Uy, PRESS, Temprature, Porous, OBST' 
       write(11,*) 'ZONE I=', nx, ', J=', ny, ', F=POINT'

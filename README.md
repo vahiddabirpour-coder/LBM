@@ -27,6 +27,8 @@ Inputs requested at start: run type (1: natural convection, 2: temperature-depen
 OpenMP parallelizes the streaming and collision loops; adjust `OMP_NUM_THREADS` to the number of CPU cores available.
 
 ## Output
+Generated output files are saved in the `result/` directory, which is created automatically when the program starts.
+
 Files are tagged with the run number set in `Input.txt`:
 - `Results_Run001_*.txt`: run information and final average Nusselt number
 - `Nu_Time_Run001.txt`: Nusselt number versus time
