@@ -20,10 +20,11 @@ Fortran code based on the Lattice Boltzmann Method (LBM) for natural convection 
 
 ## Build and run
 ```
-gfortran -O2 -std=legacy -w -ffree-line-length-none -o lbm Source1.f90 BC.f90 result.f90 geomakerf90.f90
-printf '1\n81,81\n1\n\n' | ./lbm
+gfortran -O3 -fopenmp -std=legacy -w -ffree-line-length-none -o lbm Source1.f90 BC.f90 result.f90 geomakerf90.f90
+printf '1\n81,81\n1\n' | OMP_NUM_THREADS=2 ./lbm
 ```
 Inputs requested at start: run type (1: natural convection, 2: temperature-dependent viscosity), grid size `nx,ny`, and medium type (1: clear fluid, 2: porous, 3: bi-disperse).
+OpenMP parallelizes the streaming and collision loops; adjust `OMP_NUM_THREADS` to the number of CPU cores available.
 
 ## Output
 Files are tagged with the run number set in `Input.txt`:
