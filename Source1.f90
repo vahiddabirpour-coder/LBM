@@ -11,6 +11,7 @@ implicit none
     real (8) pr,ra,da,a1,a2,a3,a4, density, teta, T0
     real (8) delta_x,delta_t,speed,Cs2,tau,tau_g,speed2,speed4
     real (8) nu_his,nu_change,ave_nuselt,stime,rtime
+	real (8) Degree
     real (8) T_change,Ux_change
     real (8) Fraction
 	real (8) e,visco,k1,c_0,c_1,u_x_0,u_y_0,u_x_1,u_y_1,cf,cf_1,L0
@@ -179,10 +180,12 @@ subroutine singlerun
     read (12,*) Da
     read (12,*) ! micro porosity
 	read (12,*) e
+	read (12,*) ! degree of gravity
+	read (12,*) degree
     close(12)
     print*,'--> Calculating other parameters'
     density=1.d0
-    teta=(0)*3.1415926535897932384626433832795/180.0   ! (Degree)
+    teta=(degree)*3.1415926535897932384626433832795/180.0   ! (Degree)
     T0=1.0    
     delta_x=1.0/real(ny-1)
     tau=0.833
@@ -704,10 +707,12 @@ subroutine singlerun
     read (12,*) Da
     read (12,*) ! micro porosity
     read (12,*) e
+    read (12,*) ! degree of gravity
+    read (12,*) degree
     close(12)
     print*,'--> Calculating other parameters'
     density=1.d0
-    teta=(0)*3.1415926535897932384626433832795/180.0   ! (Degree)
+    teta=(degree)*3.1415926535897932384626433832795/180.0   ! (Degree)
     Pr_e= 0.164
     T0=0.21
 	!T_h=T0
