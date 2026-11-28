@@ -177,6 +177,8 @@ subroutine singlerun
     read (12,*) Ra
     read (12,*) ! Da
     read (12,*) Da
+    read (12,*) ! micro porosity
+	read (12,*) e
     close(12)
     print*,'--> Calculating other parameters'
     density=1.d0
@@ -191,7 +193,7 @@ subroutine singlerun
     Cs2=speed*speed/3.0
     tau_g=3.0*delta_t/delta_x/delta_x+0.5
 	!------------------------------------------------------------
-	e=0.5                                             !porosity
+	!e=0.5                                             !porosity
 	rho_s=1
 	rho_f=1
 	Cp_s=1
@@ -700,6 +702,8 @@ subroutine singlerun
     read (12,*) Ra
     read (12,*) ! Da
     read (12,*) Da
+    read (12,*) ! micro porosity
+    read (12,*) e
     close(12)
     print*,'--> Calculating other parameters'
     density=1.d0
@@ -717,7 +721,6 @@ subroutine singlerun
     Cs2=speed*speed/3.0
 	!------------------------------------------------------------
 	!------------------------------------------------------------
-	e=0.58                                           !porosity
 	Pr_e= 0.164
 	!-------------------PAO(PolyAlphaolefin)---------------------
 	!rho_f=768.5
